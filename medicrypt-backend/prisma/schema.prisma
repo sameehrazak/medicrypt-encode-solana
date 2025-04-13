@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+  PATIENT
+  RESEARCHER
+  THIRD_PARTY
+}
+
+enum AccessStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id            String   @id @default(uuid())
+  walletAddress String   @unique
+  role          Role
+  name          String?
+  email         String?
+  contact       String?
+  createdAt     DateTime @default(now())
+
+  medicalRecords MedicalRecord[] @relation("UserMedicalRecords")
+  accessRequests AccessRequest[] @relation("UserAccessRequests")
+  ShdwFile       ShdwFile[]
+}
+
+model MedicalRecord {
+  id         String   @id @default(uuid())
+  ownerId    String
+  fileName   String?
+  cid        String
+  uploadedAt DateTime @default(now())
+
+  owner          User            @relation("UserMedicalRecords", fields: [ownerId], references: [id])
+  accessRequests AccessRequest[] @relation("RecordAccessRequests")
+}
+
+model AccessRequest {
+  id              String       @id @default(uuid())
+  medicalRecordId String
+  requesterId     String
+  status          AccessStatus @default(PENDING)
+  createdAt       DateTime     @default(now())
+
+  medicalRecord MedicalRecord @relation("RecordAccessRequests", fields: [medicalRecordId], references: [id])
+  requester     User          @relation("UserAccessRequests", fields: [requesterId], references: [id])
+}
+
+model ShdwFile {
+  id         String   @id @default(uuid())
+  cid        String // Shadow Drive file ID
+  fileName   String?
+  uploaderId String
+  uploadedAt DateTime @default(now())
+
+  uploader User @relation(fields: [uploaderId], references: [id])
+}

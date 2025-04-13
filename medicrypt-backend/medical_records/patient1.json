@@ -1,0 +1,15 @@
+{
+  "patient_id": "patient001",
+  "patient_name": "John Doe",
+  "age": 45,
+  "gender": "Male",
+  "diagnosis": "Hypertension",
+  "treatment": "Prescribe Lisinopril 10 mg daily",
+  "visit_date": "2025-03-15",
+  "doctor_notes": "Patient exhibits elevated blood pressure readings on multiple visits; advised lifestyle modifications and initiation of Lisinopril.",
+  "vitals": {
+    "blood_pressure": "150/95 mmHg",
+    "heart_rate": "78 bpm",
+    "blood_sugar": "110 mg/dL"
+  }
+}

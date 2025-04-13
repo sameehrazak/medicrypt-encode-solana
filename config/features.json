@@ -1,0 +1,8 @@
+{
+  "ai": {
+    "claude35Sonnet": {
+      "enabled": true,
+      "defaultForAllClients": true
+    }
+  }
+}
